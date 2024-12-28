@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do App</title>
+    <script>
+        async function addTask() {
+            const task = document.getElementById('task').value;
+            await fetch('http://localhost:3000/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ task }),
+            });
+            loadTasks();
+        }
+
+        async function loadTasks() {
+            const res = await fetch('http://localhost:3000/tasks');
+            const tasks = await res.json();
+            document.getElementById('tasks').innerHTML = tasks.join('<br>');
+        }
+    </script>
+</head>
+<body onload="loadTasks()">
+    <h1>To-Do List</h1>
+    <input id="task" placeholder="Add a task" />
+    <button onclick="addTask()">Add</button>
+    <div id="tasks"></div>
+</body>
+</html>
